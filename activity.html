@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جمعية منتدى الفتية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+        }
+
+        /* الشريط الثابت */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to right, darkblue, deepskyblue);
+            color: black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .header img {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        /* الوسط (الجملة وخانة البحث) */
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header .title {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .search-container input {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .search-container button {
+            background-color: darkblue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+            left: 10px;
+            top: -10px;
+        }
+
+        .post {
+            border: 2px solid blue;
+            background-color: black;
+            text-align: center;
+            margin: 20px; /* margin-top لتجنب الشريط الثابت */
+            padding: 10px;
+            border-radius: 5px;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0; /* إخفاء المنشور بشكل افتراضي */
+            transform: translateY(20px); /* إزاحة المنشور */
+        }
+
+        .post img {
+            width: 100%;
+            height: auto;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 20px; /* حجم الأيقونات */
+            margin: 0 10px; /* المسافة بين الأيقونات */
+        }
+
+        /* مربع العنوان */
+        .post-title {
+            background-color: darkblue;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .intro-box {
+            width: 300px; /* يمكنك تغييره إلى قيمة معينة مثل 80% أو 600px */
+            height: 50px; /* يمكن تغييرها إلى قيمة معينة إذا كنت تريد ارتفاعًا ثابتًا */
+            background-color: deepskyblue;
+            color: black;
+            padding: 20px;
+            text-align: center-content;
+            margin: 90px 0px 0 0;
+            border-radius: 5px;
+        }
+
+        /* شريط الحقوق المحفوظة */
+        .footer {
+            background: linear-gradient(to right, darkblue, deepskyblue);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .dropdown {
+            position: fixed;
+            top: 70px; /* إنزال القائمة المنسدلة بمقدار 20px أسفل الشريط */
+            left: 0;
+            right: 0; /* اجعلها تأخذ كامل العرض */
+            background-color: rgba(0, 0, 139, 0.9);
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        .dropdown p {
+            margin: 5px 0; /* مسافة بين العناصر */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="images/logo.png" alt="شعار الجمعية">
+        <div class="center-content">
+            <span class="title">الموقع الرسمي لمنتدى الفتية</span>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="ابحث هنا...">
+                <button onclick="searchPosts()">Ok</button>
+            </div>
+        </div>
+        <button class="toggle-button" onclick="toggleDropdown()">☰</button>
+    </div>
+
+    <div class="dropdown" id="dropdown">
+        <p><i class="fas fa-envelope"></i> info@example.com</p>
+        <p><i class="fab fa-facebook-square"></i> صفحة الفيسبوك</p>
+        <p><i class="fab fa-instagram"></i> صفحة إنستغرام</p>
+        <p><i class="fas fa-phone"></i> +1234567890</p> <!-- رقم الهاتف -->
+    </div>
+
+    <!-- مربع قبل المنشورات -->
+    <div class="intro-box">
+        مرحبًا بكم في جمعية منتدى الفتية! هنا تجدون أحدث المنشورات والمحتويات القيمة.
+    </div>
+
+    <!-- المنشورات -->
+    <div class="posts-container">
+        <div class="post" id="post1">
+            <div class="post-title">عنوان المنشور 1</div>
+            <p>1 محتوى المنشور</p>
+            <img src="images/post1.jpg" alt="منشور 1">
+            <p>محتوى المنشور 1</p>
+        </div>
+    </div>
+
+    <!-- الأيقونات الاجتماعية -->
+    <div class="social-icons">
+        <span>زوروا صفحاتنا على:</span>
+        <a href="https://www.facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-square"></i></a>
+        <a href="https://www.instagram.com" target="_blank" title="إنستغرام"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:info@example.com" title="جيميل"><i class="fas fa-envelope"></i></a>
+    </div>
+
+    <div class="footer">
+        © جميع الحقوق محفوظة - جمعية منتدى الفتية
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdown");
+            dropdown.classList.toggle("active");
+        }
+
+        // إظهار المنشورات عند التصفح
+        window.addEventListener('scroll', function() {
+            const posts = document.querySelectorAll('.post');
+            posts.forEach(post => {
+                const rect = post.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    post.style.opacity = '1';
+                    post.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
