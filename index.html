@@ -325,6 +325,28 @@
     </div>
 
     <script>
+        
+    function searchPosts() {
+    // احصل على المدخل من خانة البحث
+        var input = document.getElementById('search-input').value.toLowerCase();
+    
+    // احصل على جميع المنشورات
+        var posts = document.getElementsByClassName('post');
+
+    // تحقق من كل منشور إذا كان يحتوي على الكلمات المفتاحية
+        for (var i = 0; i < posts.length; i++) {
+        // احصل على الكلمات المفتاحية الخاصة بالمنشور
+            var keywords = posts[i].getAttribute('data-keywords').toLowerCase();
+        
+        // إذا كانت الكلمات المفتاحية تحتوي على المدخل من خانة البحث، اعرض المنشور، وإلا أخفيه
+            if (keywords.includes(input)) {
+                posts[i].style.display = "block"; // اعرض المنشور
+            } else {
+                posts[i].style.display = "none"; // أخف المنشور
+        }
+    }
+}
+        
         function toggleDropdown() {
             var dropdown = document.getElementById("dropdown");
             dropdown.classList.toggle("active");
